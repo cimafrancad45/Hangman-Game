@@ -1,0 +1,224 @@
+<!DOCtype html>
+
+<head>
+    <title>STREET FIGHTER HANGMAN</title>
+    <meta charset="UTF-8">
+    <language></language>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+</head>
+
+<body>
+    <bg "color: black"></bg>
+    <img class="logo" src="assets/images/logo_0001_StreetFighter2.png" alt="StreetFighterLogo">
+    <h1>Hangman</h1>
+    <br>
+    <div class = "gamerules">
+        Welcome to Street Fighter II hangman! Guess the word to win!
+    </div>
+
+        <button id="start" onclick="gameButton()">Start!</button>
+        <div class="gameBox">
+            <div id="wins"></div>
+            <div id="losses"></div>
+            <div id="gameHeader">Press the start button to begin!</div>
+            <br>
+            <br>
+            <div id="game"></div>
+            <div id="attempts"></div>
+            <div id="letterGuessHeader"></div>
+            <br>
+            <div id="failGuess"></div>
+        </div>
+        <script>
+        
+     
+        // Hangman words.
+            const words = [
+                "RYU",
+                "KEN",
+                "SAGAT",
+                "BLANKA",
+                "GUILE",
+                "CHUN LI",
+                "MBISON",
+                "AKUMA",
+                "ZANGIEF",
+                "DHALSIM",
+                "BLANKA", 
+                "EHONDA", 
+                "CAMMY",
+                "VEGA",
+                "BALROG",
+                "HADOKEN",
+                "SHORYUKEN",
+                "SONICBOOM",
+                "TIGERUPPERCUT",
+                "SPINNINGBIRDKICK",
+                "PSYCHOCRUSHER",
+                "DOUBLELARIAT",
+                "YOGAFIRE"
+            ];
+        // Selected puzzle.    
+            var puzzle;
+        // Arrays used for the hangman game.
+            var puzzleInput = [];
+        // guessedLetters Array.
+            var guessedLetters = [];
+        // Score variables.
+            var gameActive = false;
+            var round = 0;
+            var wins = 0;
+            var losses = 0;
+            var lives = 10;
+            var guessWins = 1;
+
+        //alphabet array for non-alphabet keypresses
+            var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+            
+        //selects the hangman puzzle.
+            function randomSelect() {
+                puzzle = words[Math.floor(Math.random() * words.length)];
+                guessWins = puzzle.length;
+                console.log(puzzle);
+            };
+
+        //resets game   
+            function reset() {
+                puzzle = "";
+                puzzleInput = [];
+                guessedLetters = [];
+                lives = 10;
+                document.getElementById("letterGuessHeader").innerText = ("");
+            }
+        
+        //pushes the word to puzzle    
+            function pushPuzzle() {
+                for ( i= 0 ; i < puzzle.length; i++) {
+                            puzzleInput.push(puzzle[i]);
+                            puzzleInput.splice(i, i, "_");
+                            guessWins = puzzleInput.length;
+                        };
+                console.log(puzzleInput);
+            }
+
+        //determines if guess is right
+            function rightGuess() {
+                guessWins --;
+                document.getElementById("game").innerText = (puzzleInput.join(""));
+                console.log(guessWins);
+                if (guessWins == 0) {
+                    youWin();
+                }
+
+            }
+        //determins if guess is wrong     
+            function wrongGuess() {
+                lives --;
+                document.getElementById("failGuess").innerText (guessedLetters);
+            }
+        //keeps track of lives
+            function lifeCount() {
+                if (lives > 1) {
+                    document.getElementById("attempts").innerText = ("You have " + lives + " attempts remaining.")            
+                }
+                else if (lives == 1) {
+                    document.getElementById("attempts").innerText = ("You have " + lives + " attempt remaining.")
+                }
+                else if (lives == 0) {
+                    gameOver();
+                }
+            };
+        //you win messaage
+            function youWin() {
+                alert("YOU WIN!")
+                        wins ++;
+                        gameActive = false;
+                        document.getElementById("start").innerText = ("Play again?");
+                        document.getElementById("gameHeader").innerText = ("Congratulations!")
+                        document.getElementById("wins").innerText = ("Wins: "+ wins)
+                        document.getElementById("attempts").innerText = ("You win!")
+                        reset();
+            }
+        //game over message
+            function gameOver() {
+                alert("YOU LOSE!")
+                        losses ++;
+                        gameActive = false;
+                        document.getElementById("start").innerText = ("Play again?");
+                        document.getElementById("gameHeader").innerText = ("The answer was " + puzzle + ".")
+                        document.getElementById("losses").innerText = ("Losses: "+ losses)
+                        document.getElementById("attempts").innerText = ("GAME OVER")
+                        reset();
+            };
+
+        //Start button code
+            function gameButton() {
+                if (gameActive == false) {
+                    round ++;
+                    alert("ROUND " + round + ", FIGHT!");
+                    document.getElementById("start").innerText = ("Give up?");
+                    document.getElementById("gameHeader").innerText = ("Press any key to guess the word!")
+                    document.getElementById("letterGuessHeader").innerText = ("Letters Guessed: ");
+                    document.getElementById("game").innerText = ("");
+                    gameActive = true;
+                    randomSelect();
+                    pushPuzzle();
+                    lifeCount();
+                    for ( z= 0 ; z < puzzleInput.length; z++) {
+                                document.getElementById("game").append(puzzleInput[z]);
+                    };
+                }
+                else {
+                    var quit = confirm("You are still in the middle of the puzzle, are you going to give up?");
+                        if (quit == true) {
+                            gameOver();
+                        }
+                        else {
+                        };
+                };
+            };
+            //Keyboard Input code
+                
+                document.onkeyup = function(event) {
+                    if (gameActive == true) {
+                    var pressedKey = event.key.toUpperCase();
+                    console.log(guessedLetters);
+                        for(i = 0 ; i < puzzleInput.length ; i++) {
+                            if (puzzle[i] == pressedKey) {
+                                if (puzzleInput[i] != pressedKey) {
+                                    puzzleInput.splice(i, 1, puzzle[i]);
+                                    rightGuess();
+                                    console.log(puzzleInput)
+                                };
+                            };
+                        };
+
+                        for (i = 0; i < puzzle.length ; i++) {
+                            if (puzzle[i] != pressedKey && guessedLetters[i] == pressedKey) {
+                                alert("You have already guessed this letter!")
+                            }
+                        };
+                        //makes sure non-alphebet keys aren't recorded
+                        for (i = 0; i < alphabet.length ; i++) {
+                            if (pressedKey != alphabet [i]) {
+                                console.log("Not part of the alphabet!")
+                            };
+                        };
+                       
+                    };
+                    guessedLetters.push(pressedKey); 
+                    console.log(pressedKey);
+                     
+                };
+
+
+
+           console.log(puzzle)
+           console.log(puzzleInput)
+        
+    
+        </script>
+    </id>
+</body>

@@ -1,4 +1,5 @@
-# Hangman-Game
-incomplete hangman game
-- 5/19/2018
-- It mostly works, but you can't lose right now. Hoping to fix and add more assets at a later date.
+# Street Fighter Hangman
+
+A hangman game made with Javascript. Press the start button to begin and press an alphabet key to guess the word from the video game series, Street Fighter.
+
+12/3/2018 - bug fixes and logic changed.

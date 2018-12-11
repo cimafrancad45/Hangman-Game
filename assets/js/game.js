@@ -28,8 +28,9 @@ const words = [
 var puzzle;
 // Arrays used for the hangman game.
 var puzzleInput = [];
-// guessedLetters Array.
-var guessedLetters = [];
+var puzzleAnswer = [];
+// pressedLetters Array.
+var pressedLetters = [];
 var wrongLetters = [];
 // Score variables.
 var gameActive = false;
@@ -38,9 +39,6 @@ var wins = 0;
 var losses = 0;
 var lives = 10;
 var guessWins = 1;
-
-//alphabet array for non-alphabet keypresses
-var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
 //selects the hangman puzzle.
 function randomSelect() {
@@ -53,19 +51,24 @@ function randomSelect() {
 function reset() {
     puzzle = "";
     puzzleInput = [];
-    guessedLetters = [];
+    puzzleAnswer = [];
+    pressedLetters = [];
+    wrongLetters = [];
     lives = 10;
     document.getElementById("letterGuessHeader").innerText = ("");
+    document.getElementById("failGuess").innerText = ("");
 }
 
 //pushes the word to puzzle    
 function pushPuzzle() {
     for (i = 0; i < puzzle.length; i++) {
+        puzzleAnswer.push(puzzle[i]);
         puzzleInput.push(puzzle[i]);
         puzzleInput.splice(i, i, "_");
         guessWins = puzzleInput.length;
     };
     console.log(puzzleInput);
+    console.log(puzzleAnswer);
 }
 
 //determines if guess is right
@@ -81,10 +84,10 @@ function rightGuess() {
 //determines if guess is wrong     
 function wrongGuess() {
     lives--;
-    document.getElementById("failGuess").innerText = (guessedLetters);
-    if (lives == 0) {
-        gameOver();
-    }
+    console.log(lives)
+    alert("wrong guess!")
+    document.getElementById("failGuess").innerText = (wrongLetters);
+    lifeCount();
 }
 
 //keeps track of lives
@@ -153,34 +156,30 @@ function gameButton() {
 document.onkeyup = function (event) {
     if (gameActive == true && event.keyCode >= 65 && event.keyCode <= 90) {
         var pressedKey = event.key.toUpperCase();
-        var repeatGuess = guessedLetters.indexOf(pressedKey);
-        guessedLetters.push(pressedKey);
+        var repeatPress = pressedLetters.indexOf(pressedKey);
+        var correctPress = puzzleAnswer.indexOf(pressedKey)
+        pressedLetters.push(pressedKey);
 
         //checks for repeated guesses
-        if (repeatGuess > -1) {
+        if (repeatPress > -1) {
             alert("You have already used this letter!")
-        } else {
+            //wrong guess logic
+        } else if (correctPress > -1) {
             for (i = 0; i < puzzleInput.length; i++) {
                 if (puzzle[i] == pressedKey && puzzleInput[i] != pressedKey) {
                     puzzleInput.splice(i, 1, puzzle[i]);
                     rightGuess();
                     console.log(puzzleInput)
-                } else {
-                    wrongLetters.push(pressedKey);
-                    console.log(wrongLetters);
-                }
-
+                };
             };
-
-            // } else {
-
-            // };
+        } else {
+            wrongLetters.push(pressedKey);
+            wrongGuess();
         };
     };
+
+
+
+    console.log(puzzle)
+    console.log(puzzleInput)
 };
-
-
-
-console.log(puzzle)
-console.log(puzzleInput)
-

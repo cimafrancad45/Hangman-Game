@@ -5,7 +5,7 @@ const words = [
     "SAGAT",
     "BLANKA",
     "GUILE",
-    "CHUN-LI",
+    "CHUNLI",
     "M.BISON",
     "AKUMA",
     "ZANGIEF",
@@ -18,13 +18,13 @@ const words = [
     "HADOKEN",
     "SHORYUKEN",
     "TATSUMAKISENPUUKYAKU",
-    "SONIC BOOM",
-    "TIGER UPPERCUT",
-    "SPINNING BIRDKICK",
-    "PSYCHO CRUSHER",
-    "DOUBLE LARIAT",
-    "YOGA FIRE",
-    "ROLLING ATTACK"
+    "SONICBOOM",
+    "TIGERUPPERCUT",
+    "SPINNINGBIRDKICK",
+    "PSYCHOCRUSHER",
+    "DOUBLELARIAT",
+    "YOGAFIRE",
+    "ROLLINGATTACK"
 ];
 // Selected puzzle.    
 var puzzle;
@@ -89,10 +89,8 @@ function wrongGuess() {
     console.log(lives)
     if (lives === 0) {
         alert("K.O!");
-    } else if (lives === 1) {
-        alert("That letter is not part of the word! You have one last attempt!");
     } else {
-        alert("That letter is not part of the word! You have " + lives + " tries remaining!");
+        alert("That letter is not part of the word! You have " + lives + " tries remaining!")
     }
     document.getElementById("failGuess").innerText = (wrongLetters);
     lifeCount();

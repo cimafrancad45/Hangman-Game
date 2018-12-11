@@ -6,7 +6,7 @@ const words = [
     "BLANKA",
     "GUILE",
     "CHUNLI",
-    "M.BISON",
+    "MBISON",
     "AKUMA",
     "ZANGIEF",
     "DHALSIM",

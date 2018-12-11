@@ -5,3 +5,5 @@ A hangman game made with Javascript. Press the start button to begin and press a
 
 # 12/11/2018 Release Version
 12/11/2018 - Game is fully functioning! Ver 1.0 release
+Game can be accessed through this link:
+https://cimafrancad45.github.io/Hangman-Game/Hangman.html

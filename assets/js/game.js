@@ -5,8 +5,8 @@ const words = [
     "SAGAT",
     "BLANKA",
     "GUILE",
-    "CHUNLI",
-    "MBISON",
+    "CHUN-LI",
+    "M.BISON",
     "AKUMA",
     "ZANGIEF",
     "DHALSIM",
@@ -17,12 +17,14 @@ const words = [
     "BALROG",
     "HADOKEN",
     "SHORYUKEN",
-    "SONICBOOM",
-    "TIGERUPPERCUT",
-    "SPINNINGBIRDKICK",
-    "PSYCHOCRUSHER",
-    "DOUBLELARIAT",
-    "YOGAFIRE"
+    "TATSUMAKISENPUUKYAKU",
+    "SONIC BOOM",
+    "TIGER UPPERCUT",
+    "SPINNING BIRDKICK",
+    "PSYCHO CRUSHER",
+    "DOUBLE LARIAT",
+    "YOGA FIRE",
+    "ROLLING ATTACK"
 ];
 // Selected puzzle.    
 var puzzle;
@@ -85,7 +87,13 @@ function rightGuess() {
 function wrongGuess() {
     lives--;
     console.log(lives)
-    alert("wrong guess!")
+    if (lives === 0) {
+        alert("K.O!");
+    } else if (lives === 1) {
+        alert("That letter is not part of the word! You have one last attempt!");
+    } else {
+        alert("That letter is not part of the word! You have " + lives + " tries remaining!");
+    }
     document.getElementById("failGuess").innerText = (wrongLetters);
     lifeCount();
 }
@@ -93,10 +101,10 @@ function wrongGuess() {
 //keeps track of lives
 function lifeCount() {
     if (lives > 1) {
-        document.getElementById("attempts").innerText = ("You have " + lives + " attempts remaining.")
+        document.getElementById("attempts").innerText = (lives + " attempts remaining.")
     }
-    else if (lives == 1) {
-        document.getElementById("attempts").innerText = ("You have " + lives + " attempt remaining.")
+    else if (lives === 1) {
+        document.getElementById("attempts").innerText = (lives + " attempt remaining.")
     }
     else if (lives == 0) {
         gameOver();
